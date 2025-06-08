@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Complete Project</title>
+  <style>
+    /* General Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #444;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      background: #666;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    /* Contact Form Styling */
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label, input {
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    input[type="submit"] {
+      background: #2e8b57;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background: #246d48;
+    }
+
+    /* To-Do List */
+    #todo-input {
+      padding: 8px;
+      width: calc(100% - 20px);
+      margin-bottom: 10px;
+    }
+
+    .todo-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      padding: 8px;
+      background: #eee;
+      border-radius: 4px;
+    }
+
+    .todo-item button {
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header and Navigation -->
+  <header>
+    <h1>My Web Project</h1>
+  </header>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Contact</a>
+    <a href="#">To-Do</a>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+
+    <!-- Contact Form -->
+    <section>
+      <h2>Contact Form</h2>
+      <form id="contact-form" onsubmit="return validateForm()">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required />
+
+        <input type="submit" value="Submit" />
+        <p id="form-error" style="color:red;"></p>
+      </form>
+    </section>
+
+    <!-- To-Do List -->
+    <section>
+      <h2>To-Do List</h2>
+      <input type="text" id="todo-input" placeholder="Enter a task" />
+      <button onclick="addTodo()">Add Task</button>
+      <div id="todo-list"></div>
+    </section>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Contact Form Validation
+    function validateForm() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const errorMsg = document.getElementById("form-error");
+      errorMsg.textContent = "";
+
+      if (name === "" || email === "") {
+        errorMsg.textContent = "Please fill in all fields.";
+        return false;
+      }
+
+      const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+      if (!emailRegex.test(email)) {
+        errorMsg.textContent = "Please enter a valid email address.";
+        return false;
+      }
+
+      alert("Form submitted successfully!");
+      return true;
+    }
+
+    // To-Do List Functionality
+    function addTodo() {
+      const input = document.getElementById("todo-input");
+      const value = input.value.trim();
+
+      if (value === "") {
+        alert("Please enter a task.");
+        return;
+      }
+
+      const task = document.createElement("div");
+      task.className = "todo-item";
+      task.innerHTML = `
+        <span>${value}</span>
+        <button onclick="removeTodo(this)">X</button>
+      `;
+
+      document.getElementById("todo-list").appendChild(task);
+      input.value = "";
+    }
+
+    function removeTodo(button) {
+      button.parentElement.remove();
+    }
+  </script>
+
+</body>
+</html>
